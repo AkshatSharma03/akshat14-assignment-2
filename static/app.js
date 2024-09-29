@@ -71,6 +71,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
+
+        // Enable the buttons for interaction
+        stepButton.disabled = false;
+        convergeButton.disabled = false;
+
         plotData();
     }
 
@@ -103,14 +108,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // Run KMeans to convergence
     function runToConvergence() {
         let previousAssignments = [];
-        do {
+        let isConverged = false;
+
+        // Loop until convergence
+        while (!isConverged) {
             previousAssignments = [...assignments];
+
+            // Perform one step of KMeans
             stepKMeans();
-        } while (!assignments.every((value, index) => value === previousAssignments[index]));
+
+            // Check for convergence
+            isConverged = assignments.every((value, index) => value === previousAssignments[index]);
+        }
     }
 
     // Plot data and centroids using Plotly
     function plotData() {
+        console.log("Plotting data with centroids:", centroids);
+        console.log("Current assignments:", assignments);
+
         const traces = [];
 
         // Plot data points with cluster color
@@ -152,6 +168,8 @@ document.addEventListener('DOMContentLoaded', () => {
     resetButton.addEventListener('click', () => {
         centroids = [];
         assignments = [];
+        stepButton.disabled = true;
+        convergeButton.disabled = true;
         plotData();
     });
     numClustersInput.addEventListener('change', initializeCentroids);
