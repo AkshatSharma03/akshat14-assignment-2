@@ -3,24 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KMeans Visualization</title>
+    <title>KMeans Clustering Algorithm</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-    <div>
-        <label for="init-method">Initialization Method:</label>
-        <select id="init-method">
-            <option value="random">Random</option>
-            <option value="farthest_first">Farthest First</option>
-            <option value="kmeans++">KMeans++</option>
-            <option value="manual">Manual</option>
-        </select>
-        <button id="new-dataset">Generate New Dataset</button>
-        <button id="step">Step</button>
-        <button id="converge">Converge</button>
-        <button id="reset">Reset</button>
+    <div class="container">
+        <h1>KMeans Clustering Algorithm</h1>
+        
+        <div class="control-panel">
+            <div class="input-group">
+                <label for="num-clusters">Number of Clusters (k):</label>
+                <input type="number" id="num-clusters" min="1" max="10">
+            </div>
+
+            <div class="input-group">
+                <label for="init-method">Initialization Method:</label>
+                <select id="init-method">
+                    <option value="random">Random</option>
+                    <option value="farthest_first">Farthest First</option>
+                    <option value="kmeans++">KMeans++</option>
+                    <option value="manual">Manual</option>
+                </select>
+            </div>
+
+            <button id="step-kmeans" disabled>Step Through KMeans</button>
+            <button id="converge-kmeans" disabled>Run to Convergence</button>
+            <button id="generate-dataset">Generate New Dataset</button>
+            <button id="reset-algorithm">Reset Algorithm</button>
+        </div>
+
+        <div id="plot" class="plot-container">
+            <!-- Plotly chart will be rendered here -->
+        </div>
     </div>
-    <div id="plot"></div>
-    <script src="app.js"></script> <!-- Link to JavaScript file -->
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>
